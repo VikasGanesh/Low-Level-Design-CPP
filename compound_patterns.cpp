@@ -44,6 +44,7 @@ public:
 //adapter class
 class GooseAdapter : public Quackable {
 private:
+    //Adaptee
     Goose* goose;
 public:
     GooseAdapter(Goose* goose){
@@ -56,9 +57,25 @@ public:
 
 //target is it Quackable;
 
+class DuckSimulator {
+public:
+    void simulate(){
+        Quackable* mallardDuck = new MallardDuck();
+        Quackable* readHead = new RedheadDuck();
+        Quackable* duckCall = new DuckCall();
+        Quackable* rubberDuck = new RubberDuck();
+        Quackable* gooseAdapter = new GooseAdapter(new Goose());
 
-
+        mallardDuck->quack();
+        readHead->quack();
+        rubberDuck->quack();
+        duckCall->quack();
+        gooseAdapter->quack();
+    }
+};
 
 int main() {
-    std::cout << "Hello World!\n";
+    DuckSimulator simulator;
+    simulator.simulate();
+    return 0;
 }
