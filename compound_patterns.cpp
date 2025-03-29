@@ -85,14 +85,65 @@ public:
 
 int QuackCounter::numberOfQuacks = 0;
 
+/*
+This quack counting is great. We’re learning
+things we never knew about the little quackers.
+But we’re finding that too many quacks aren’t
+being counted. 
+
+
+we will use factory design pattern to create ducks now;
+*/
+
+class AbstractDuckFactory {
+public:
+    virtual Quackable* createMallardDuck() = 0;
+    virtual Quackable* createRedheadDuck() = 0;
+    virtual Quackable* createDuckCall() = 0;
+    virtual Quackable* createRubberDuck() = 0;
+};
+
+class DuckFactory : public AbstractDuckFactory {
+public:
+    Quackable* createMallardDuck() {
+        return new MallardDuck();
+    }
+    Quackable* createRedheadDuck() {
+        return new RedheadDuck();
+    }
+    Quackable* createDuckCall() {
+        return new DuckCall();
+    }
+    Quackable* createRubberDuck() {
+        return new RubberDuck();
+    }
+};
+
+class CountingDuckFactory : public AbstractDuckFactory {
+public:
+    Quackable* createMallardDuck() {
+        return new QuackCounter(new MallardDuck());
+    }
+    Quackable* createRedheadDuck() {
+        return new QuackCounter(new RedheadDuck());
+    }
+    Quackable* createDuckCall() {
+        return new QuackCounter(new DuckCall());
+    }
+    Quackable* createRubberDuck() {
+        return new QuackCounter(new RubberDuck());
+    }
+};
+
+
 class DuckSimulator {
 public:
-    void simulate(){
-        Quackable* mallardDuck = new QuackCounter(new MallardDuck());
-        Quackable* readHead = new QuackCounter(new RedheadDuck());
-        Quackable* duckCall = new QuackCounter(new DuckCall());
-        Quackable* rubberDuck = new QuackCounter(new RubberDuck());
-        Quackable* gooseAdapter = new QuackCounter(new GooseAdapter(new Goose()));
+    void simulate(AbstractDuckFactory* countingDuckFactory){
+        Quackable* mallardDuck = countingDuckFactory->createMallardDuck();
+        Quackable* readHead = countingDuckFactory->createRedheadDuck();
+        Quackable* duckCall = countingDuckFactory->createDuckCall();
+        Quackable* rubberDuck = countingDuckFactory->createRubberDuck();
+        Quackable* gooseAdapter = new GooseAdapter(new Goose());
 
         mallardDuck->quack();
         readHead->quack();
@@ -106,6 +157,7 @@ public:
 
 int main() {
     DuckSimulator simulator;
-    simulator.simulate();
+    AbstractDuckFactory* countingDuckFactory = new CountingDuckFactory();
+    simulator.simulate(countingDuckFactory);
     return 0;
 }
