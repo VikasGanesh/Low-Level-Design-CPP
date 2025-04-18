@@ -300,6 +300,28 @@ public:
 
             if (remainingHours <= 0) break;
         }
+/*
+
+int previousLimit = 0;
+
+for (auto& slab : slabs) {
+    if (remainingHours <= 0) break;
+
+    int slabHours = slab.upToHour - previousLimit;
+
+    if (remainingHours >= slabHours) {
+        total += slabHours * slab.ratePerHour;
+        remainingHours -= slabHours;
+    } else {
+        total += remainingHours * slab.ratePerHour;
+        remainingHours = 0;
+    }
+
+    previousLimit = slab.upToHour;
+}
+
+
+*/
 
         return total;
     }
