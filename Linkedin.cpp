@@ -374,19 +374,19 @@ public:
 };
 
 int main() {
-    UserRepository userRepo;
-    GroupRepository groupRepo;
+    UserRepository* userRepo = new UserRepository();
+    GroupRepository* groupRepo = new GroupRepository();
 
     User* alice = new User(1);
     User* bob = new User(2);
-    userRepo.addUser(alice);
+    userRepo->addUser(alice);
     userRepo.addUser(bob);
 
     NotificationService::setStrategy(new InAppNotificationStrategy());
 
     alice->sendMessage(bob, "Hi Bob!");
 
-    Group* g = GroupService::createGroup(&groupRepo, 101, "Software Engineers", alice);
+    Group* g = GroupService::createGroup(groupRepo, 101, "Software Engineers", alice);
 
     Post* post = new Post();
     post->addComment(CommentService::createComment(10, 1, "Great post!"));
