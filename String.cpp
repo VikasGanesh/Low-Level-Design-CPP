@@ -1,6 +1,8 @@
 #include <iostream>
 #include <bits/stdc++.h>
 
+//https://github.com/cppnuts-yt/CppNuts/blob/master/Write%20Your%20Own/own%20string%20class.cpp
+
 using namespace std;
 
 class String {
